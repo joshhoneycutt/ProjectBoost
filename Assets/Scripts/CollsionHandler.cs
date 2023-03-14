@@ -3,7 +3,17 @@ using UnityEngine.SceneManagement;
 
 public class CollsionHandler : MonoBehaviour
 {
+    [SerializeField] AudioClip success;
+    [SerializeField] AudioClip crash;
+
+    AudioSource audioSource;
+
     float levelLoadDelay = 2f;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -23,7 +33,8 @@ public class CollsionHandler : MonoBehaviour
 
     void StartSuccessSequence()
     {
-        // todo add SFX upon crash
+        // add SFX upon success
+        audioSource.PlayOneShot(success);
         // todo as particle effect upon crash
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel", levelLoadDelay);
@@ -31,7 +42,8 @@ public class CollsionHandler : MonoBehaviour
 
     void StartCrashSequence()
     {
-        // todo add SFX upon crash
+        // add SFX upon crash
+        audioSource.PlayOneShot(crash);
         // todo as particle effect upon crash
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", levelLoadDelay);
@@ -52,11 +64,6 @@ public class CollsionHandler : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
-    }
-
-    void Start()
-    {
-        
     }
 
     void Update()
