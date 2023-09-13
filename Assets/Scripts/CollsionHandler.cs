@@ -6,7 +6,11 @@ public class CollsionHandler : MonoBehaviour
     [SerializeField] AudioClip success;
     [SerializeField] AudioClip crash;
 
+    [SerializeField] ParticleSystem successParticles;
+    [SerializeField] ParticleSystem crashParticles;
+
     AudioSource audioSource;
+    ParticleSystem particleSource;
 
     float levelLoadDelay = 2f;
 
@@ -42,6 +46,7 @@ public class CollsionHandler : MonoBehaviour
         // add SFX upon success
         audioSource.PlayOneShot(success);
         // todo as particle effect upon crash
+        successParticles.Play();
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel", levelLoadDelay);
     }
@@ -53,6 +58,7 @@ public class CollsionHandler : MonoBehaviour
         // add SFX upon crash
         audioSource.PlayOneShot(crash);
         // todo as particle effect upon crash
+        crashParticles.Play();
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", levelLoadDelay);
     }
